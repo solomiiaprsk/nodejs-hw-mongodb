@@ -1,11 +1,8 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import { env } from './utils/env';
-import { getAllContacts, getContactById } from './services/contacts';
-
-dotenv.config();
+import { env } from './utils/env.js';
+import { getAllContacts, getContactById } from './services/contacts.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -22,7 +19,11 @@ export const setupServer = () => {
       },
     }),
   );
-
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello world!',
+    });
+  });
   app.get('/contacts', async (req, res) => {
     const contacts = await getAllContacts();
     res.status(200).json({
