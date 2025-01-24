@@ -21,7 +21,7 @@ export const setupServer = () => {
   );
   app.get('/', (req, res) => {
     res.json({
-      message: 'Hello world Node.js!',
+      message: 'Hello world Node!',
     });
   });
   app.get('/contacts', async (req, res) => {
