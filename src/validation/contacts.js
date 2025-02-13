@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { isValidObjectId } from 'mongoose';
 
 export const createContactSchema = Joi.object({
   name: Joi.string().min(3).max(20).required().messages({
@@ -13,6 +14,12 @@ export const createContactSchema = Joi.object({
   email: Joi.string().email().required(),
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal').required(),
+  userId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      return helper.message('Parent id should be a valid mongo id');
+    }
+    return true;
+  }),
 });
 
 export const updateContactSchema = Joi.object({
@@ -26,25 +33,3 @@ export const updateContactSchema = Joi.object({
   isFavourite: Joi.boolean(),
   contactType: Joi.string().valid('work', 'home', 'personal'),
 });
-
-// name: {
-//       type: String,
-//       required: true,
-//     },
-//     phoneNumber: {
-//       type: String,
-//       required: true,
-//     },
-//     email: {
-//       type: String,
-//     },
-//     isFavourite: {
-//       type: Boolean,
-//       default: false,
-//     },
-//     contactType: {
-//       type: String,
-//       enum: ['work', 'home', 'personal'],
-//       required: true,
-//       default: 'personal',
-//     },
