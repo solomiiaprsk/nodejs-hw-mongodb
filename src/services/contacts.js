@@ -4,6 +4,7 @@ import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getAllContacts = async ({
   page = 1,
+  userId,
   perPage = 10,
   sortOrder = SORT_ORDER.ASC,
   sortBy = '_id',
@@ -46,7 +47,7 @@ export const getContactById = async (contactId, userId) => {
 };
 
 export const createContact = async (contact, userId) => {
-  const newContact = await ContactsCollection.create(...contact, userId);
+  const newContact = await ContactsCollection.create({ ...contact, userId });
   return newContact;
 };
 
